@@ -9,13 +9,14 @@
 </div>
 
 <script>
-	import { onMount } from 'svelte';
+	import { beforeUpdate } from 'svelte';
 
 	let post = {};
 	export let params;
 
-	onMount(() => {
+	beforeUpdate(() => {
 		// TODO: context="module" preload
+		if (params.title === post.slug) return; // stop infinite loop
 		fetch(`https://sapper-template.now.sh/blog/${params.title}.json`)
 			.then(r => r.json())
 			.then(obj => {
