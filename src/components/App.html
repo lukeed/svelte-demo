@@ -1,4 +1,4 @@
-<Nav {uri} />
+<Nav {active} />
 
 <main>
 	<svelte:component this={Route} {params} />
@@ -9,11 +9,9 @@
 	import { onDestroy } from 'svelte';
 	import Nav from './Nav.html';
 
-	let Route, params;
+	let Route, params, active;
 	let uri = location.pathname;
-
-	// let active;
-	// $: active = uri.split('/')[1] || 'home';
+	$: active = uri.split('/')[1] || 'home';
 
 	function draw(m, obj) {
 		Route = m.default;

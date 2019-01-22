@@ -7,13 +7,10 @@
 </nav>
 
 <script>
-	// export let active;
-	export let uri;
+	let isActive;
+	export let active;
 
-	function isActive(str) {
-		let curr = uri.split('/')[1] || 'home';
-		return curr === str ? 'selected' : '';
-	}
+	$: isActive = str => active === str ? 'selected' : '';
 </script>
 
 <style>
