@@ -10,15 +10,21 @@
 	{/each}
 </ul>
 
-<script>
-	let posts = [];
+<script context="module">
+	let items = [];
+	export function preload() {
+		return fetch('https://sapper-template.now.sh/blog.json')
+			.then(r => r.json())
+			.then(arr => {
+				items = arr;
+			});
+	}
+</script>
 
-	// TODO: context="module"
-	fetch('https://sapper-template.now.sh/blog.json')
-		.then(r => r.json())
-		.then(arr => {
-			posts = arr;
-		});
+<script>
+	let posts = items;
+	// ^ Current workaround
+	// @see https://github.com/sveltejs/svelte/issues/2001
 </script>
 
 <style>

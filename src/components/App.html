@@ -14,8 +14,14 @@
 	$: active = uri.split('/')[1] || 'home';
 
 	function draw(m, obj) {
-		Route = m.default;
 		params = obj || {};
+		if (m.preload) {
+			m.preload({ params }).then(() => {
+				Route = m.default;
+			});
+		} else {
+			Route = m.default;
+		}
 	}
 
 	function track(obj) {
