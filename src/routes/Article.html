@@ -12,11 +12,13 @@
 	import { beforeUpdate } from 'svelte';
 
 	let post = {};
-	export let params;
+	export let params = {};
 
+	// TODO: context="module" preload
+	//   Awaiting fix(?) to call "preload" multiple times.
 	beforeUpdate(() => {
-		// TODO: context="module" preload
-		if (params.title === post.slug) return; // stop infinite loop
+		// prevent infinite loop
+		if (!params.title || params.title === post.slug) return;
 		fetch(`https://sapper-template.now.sh/blog/${params.title}.json`)
 			.then(r => r.json())
 			.then(obj => {
