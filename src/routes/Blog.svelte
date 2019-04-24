@@ -11,20 +11,14 @@
 </ul>
 
 <script context="module">
-	let items = [];
+	let posts = [];
 	export function preload() {
 		return fetch('https://sapper-template.now.sh/blog.json')
 			.then(r => r.json())
 			.then(arr => {
-				items = arr;
+				posts = arr;
 			});
 	}
-</script>
-
-<script>
-	let posts = items;
-	// ^ Current workaround
-	// @see https://github.com/sveltejs/svelte/issues/2001
 </script>
 
 <style>
