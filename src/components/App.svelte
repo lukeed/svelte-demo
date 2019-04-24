@@ -7,7 +7,7 @@
 <script>
 	import Navaid from 'navaid';
 	import { onDestroy } from 'svelte';
-	import Nav from './Nav.html';
+	import Nav from './Nav.svelte';
 
 	let Route, params, active;
 	let uri = location.pathname;
@@ -34,10 +34,10 @@
 	addEventListener('popstate', track);
 
 	const router = Navaid('/')
-		.on('/', () => import('../routes/Home.html').then(draw))
-		.on('/about', () => import('../routes/About.html').then(draw))
-		.on('/blog', () => import('../routes/Blog.html').then(draw))
-		.on('/blog/:title', obj => import('../routes/Article.html').then(m => draw(m, obj)))
+		.on('/', () => import('../routes/Home.svelte').then(draw))
+		.on('/about', () => import('../routes/About.svelte').then(draw))
+		.on('/blog', () => import('../routes/Blog.svelte').then(draw))
+		.on('/blog/:title', obj => import('../routes/Article.svelte').then(m => draw(m, obj)))
 		.listen();
 
 	onDestroy(router.unlisten);
