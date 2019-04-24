@@ -9,22 +9,17 @@
 </div>
 
 <script>
-	import { beforeUpdate } from 'svelte';
-
-	let post = {};
 	export let params = {};
 
-	// TODO: context="module" preload
-	//   Awaiting fix(?) to call "preload" multiple times.
-	beforeUpdate(() => {
-		// prevent infinite loop
-		if (!params.title || params.title === post.slug) return;
+	let post = {};
+
+	$: {
 		fetch(`https://sapper-template.now.sh/blog/${params.title}.json`)
 			.then(r => r.json())
 			.then(obj => {
 				post = obj;
 			});
-	});
+	}
 </script>
 
 <style>

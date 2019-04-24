@@ -7,9 +7,7 @@
 </nav>
 
 <script>
-	let isActive;
 	export let active;
-
 	$: isActive = str => active === str ? 'selected' : '';
 </script>
 
