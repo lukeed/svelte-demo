@@ -15,10 +15,6 @@ export default {
 	},
 	plugins: [
 		svelte({
-			// opt in to v3 behaviour today
-			skipIntroByDefault: true,
-			nestedTransitions: true,
-
 			// enable run-time checks when not in production
 			dev: !production,
 			// we'll extract any component CSS out into
@@ -40,9 +36,6 @@ export default {
 		// instead of npm run dev), minify
 		production && terser()
 	],
-
-	// temporary, pending Rollup 1.0
-	experimentalCodeSplitting: true,
 
 	watch: {
 		clearScreen: false
