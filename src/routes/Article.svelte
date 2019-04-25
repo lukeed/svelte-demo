@@ -8,18 +8,28 @@
 	{@html post.html}
 </div>
 
+<script context="module">
+	let item = {};
+
+	function load(title) {
+		return fetch(`https://sapper-template.now.sh/blog/${title}.json`).then(r => r.json());
+	}
+
+	export function preload(req) {
+		console.log('~> preload');
+		return load(req.params.title).then(obj => item = obj);
+	}
+</script>
+
 <script>
+	// Comes from App (router)
 	export let params = {};
 
-	let post = {};
+	// Initial value (preload)
+	let post = item;
 
-	$: {
-		fetch(`https://sapper-template.now.sh/blog/${params.title}.json`)
-			.then(r => r.json())
-			.then(obj => {
-				post = obj;
-			});
-	}
+	// Reactively update `post` value
+	$: load(params.title).then(obj => post = obj);
 </script>
 
 <style>
