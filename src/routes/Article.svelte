@@ -29,7 +29,7 @@
 	let post = item;
 
 	// Reactively update `post` value
-	$: load(params.title).then(obj => post = obj);
+	$: if (params.title) load(params.title).then(obj => { post = obj });
 </script>
 
 <style>
