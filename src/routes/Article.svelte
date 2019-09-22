@@ -5,19 +5,21 @@
 <h1>{post.title}</h1>
 
 <div class="content">
-	{@html post.html}
+	{@html post.body}
 </div>
 
 <script context="module">
 	let item = {};
 
-	function load(title) {
-		return fetch(`https://sapper-template.now.sh/blog/${title}.json`).then(r => r.json());
+	function load(postid) {
+		const curr = item.id;
+		const isCurrent = curr && curr == postid;
+		if (!postid || isCurrent) return Promise.resolve(item);
+		return fetch(`https://jsonplaceholder.typicode.com/posts/${postid}`).then(r => r.json());
 	}
 
 	export function preload(req) {
-		console.log('~> preload');
-		return load(req.params.title).then(obj => item = obj);
+		return load(req.params.postid).then(obj => item = obj);
 	}
 </script>
 
@@ -29,7 +31,7 @@
 	let post = item;
 
 	// Reactively update `post` value
-	$: if (params.title) load(params.title).then(obj => { post = obj });
+	$: load(params.postid).then(obj => post = obj);
 </script>
 
 <style>
