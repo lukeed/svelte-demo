@@ -18,9 +18,11 @@
 		if (m.preload) {
 			m.preload({ params }).then(() => {
 				Route = m.default;
+				window.scrollTo(0, 0);
 			});
 		} else {
 			Route = m.default;
+			window.scrollTo(0, 0);
 		}
 	}
 
