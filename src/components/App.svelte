@@ -11,7 +11,7 @@
 
 	let Route, params, active;
 	let uri = location.pathname;
-	$: active = uri && uri.split('/')[1] || 'home';
+	$: active = uri.split('/')[1] || 'home';
 
 	function draw(m, obj) {
 		params = obj || {};
@@ -27,7 +27,7 @@
 	}
 
 	function track(obj) {
-		uri = obj.state || obj.uri;
+		uri = obj.state || obj.uri || location.pathname;
 		if (window.ga) ga.send('pageview', { dp:uri });
 	}
 
