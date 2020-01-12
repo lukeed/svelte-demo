@@ -1,4 +1,5 @@
 import svelte from 'rollup-plugin-svelte';
+import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
@@ -31,6 +32,10 @@ export default {
 		// https://github.com/rollup/rollup-plugin-commonjs
 		resolve(),
 		commonjs(),
+
+		replace({
+			'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development')
+		}),
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
