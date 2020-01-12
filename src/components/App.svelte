@@ -27,7 +27,7 @@
 	}
 
 	function track(obj) {
-		uri = obj.state || obj.uri;
+		uri = obj.state || obj.uri || location.pathname;
 		if (window.ga) ga.send('pageview', { dp:uri });
 	}
 
