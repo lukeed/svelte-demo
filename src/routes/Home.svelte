@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>Sapper project template</title>
+	<title>Svelte Demo template</title>
 </svelte:head>
 
 <h1>Great success!</h1>
