@@ -9,21 +9,29 @@
 	import { onDestroy } from 'svelte';
 	import Nav from './Nav.svelte';
 
-	let Route, params, active;
+	let Route, params={}, active;
 	let uri = location.pathname;
 	$: active = uri.split('/')[1] || 'home';
 
-	function draw(m, obj) {
-		params = obj || {};
-		if (m.preload) {
-			m.preload({ params }).then(() => {
+	function run(thunk, obj) {
+		const target = uri;
+
+		thunk.then(m => {
+			if (target !== uri) return;
+
+			params = obj || {};
+
+			if (m.preload) {
+				m.preload({ params }).then(() => {
+					if (target !== uri) return;
+					Route = m.default;
+					window.scrollTo(0, 0);
+				});
+			} else {
 				Route = m.default;
 				window.scrollTo(0, 0);
-			});
-		} else {
-			Route = m.default;
-			window.scrollTo(0, 0);
-		}
+			}
+		});
 	}
 
 	function track(obj) {
@@ -36,10 +44,10 @@
 	addEventListener('popstate', track);
 
 	const router = Navaid('/')
-		.on('/', () => import('../routes/Home.svelte').then(draw))
-		.on('/about', () => import('../routes/About.svelte').then(draw))
-		.on('/blog', () => import('../routes/Blog.svelte').then(draw))
-		.on('/blog/:postid', obj => import('../routes/Article.svelte').then(m => draw(m, obj)))
+		.on('/', () => run(import('../routes/Home.svelte')))
+		.on('/about', () => run(import('../routes/About.svelte')))
+		.on('/blog', () => run(import('../routes/Blog.svelte')))
+		.on('/blog/:postid', obj => run(import('../routes/Article.svelte'), obj))
 		.listen();
 
 	onDestroy(router.unlisten);
