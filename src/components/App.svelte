@@ -6,7 +6,8 @@
 
 <script>
 	import Navaid from 'navaid';
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
+	import { isAdmin, isUser } from '../stores/auth';
 	import Nav from './Nav.svelte';
 
 	let Route, params={}, active;
@@ -49,17 +50,21 @@
 		.on('/about', () => run(import('../routes/About.svelte')))
 		.on('/login', () => run(import('../routes/Login.svelte')))
 		.on('/private', () => onAdmin(import('../routes/Private.svelte')))
+		.on('/forbidden', () => run(import('../routes/Forbidden.svelte')))
 		.on('/blog', () => run(import('../routes/Blog.svelte')))
 		.on('/blog/:postid', obj => run(import('../routes/Article.svelte'), obj))
 	);
 
-	let isAdmin = false;
 	function onAdmin(thunk, obj) {
-		if (isAdmin) return run(thunk, obj);
+		if ($isAdmin) return run(thunk, obj);
+		if ($isUser) return router.route('/forbidden', true);
 		router.route('/login', true);
 	}
 
 	onMount(() => {
+		// available to App children
+		setContext('router', router);
+
 		return router.listen();
 	});
 </script>

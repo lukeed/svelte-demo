@@ -3,14 +3,30 @@
 		<li><a class="{ isActive('home') }" href="/">home</a></li>
 		<li><a class="{ isActive('about') }" href="/about">about</a></li>
 		<li><a class="{ isActive('blog') }" href="/blog">blog</a></li>
-		<li><a class="{ isActive('login') }" href="/login">login</a></li>
-		<li><a class="{ isActive('private') }" href="/private">private</a></li>
+		{#if $isUser}
+			<li><a class="{ isActive('private') }" href="/private">private</a></li>
+			<li class="action"><a href="#" on:click|preventDefault={logout}>logout</a></li>
+		{:else}
+			<li class="action"><a class="{ isActive('login') }" href="/login">login</a></li>
+		{/if}
 	</ul>
 </nav>
 
 <script>
+	import { getContext, tick } from 'svelte';
+	import { user, isUser } from '../stores/auth';
+
 	export let active;
 	$: isActive = str => active === str ? 'selected' : '';
+
+	function logout() {
+		user.set(false);
+		// Or move this to App as `isUser` subscription
+		let rr = getContext('router');
+		setTimeout(() => {
+			rr.route('/login', true);
+		}, 1);
+	}
 </script>
 
 <style>
@@ -32,6 +48,10 @@
 	li {
 		display: block;
 		float: left;
+	}
+	li.action {
+		color: rgb(170,30,30);
+		float: right;
 	}
 	.selected {
 		position: relative;
