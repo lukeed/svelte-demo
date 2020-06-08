@@ -3,6 +3,8 @@
 		<li><a class="{ isActive('home') }" href="/">home</a></li>
 		<li><a class="{ isActive('about') }" href="/about">about</a></li>
 		<li><a class="{ isActive('blog') }" href="/blog">blog</a></li>
+		<li><a class="{ isActive('login') }" href="/login">login</a></li>
+		<li><a class="{ isActive('private') }" href="/private">private</a></li>
 	</ul>
 </nav>
 

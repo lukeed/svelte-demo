@@ -6,7 +6,7 @@
 
 <script>
 	import Navaid from 'navaid';
-	import { onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 	import Nav from './Nav.svelte';
 
 	let Route, params={}, active;
@@ -43,14 +43,25 @@
 	addEventListener('pushstate', track);
 	addEventListener('popstate', track);
 
-	const router = Navaid('/')
+	const router = (
+		Navaid('/')
 		.on('/', () => run(import('../routes/Home.svelte')))
 		.on('/about', () => run(import('../routes/About.svelte')))
+		.on('/login', () => run(import('../routes/Login.svelte')))
+		.on('/private', () => onAdmin(import('../routes/Private.svelte')))
 		.on('/blog', () => run(import('../routes/Blog.svelte')))
 		.on('/blog/:postid', obj => run(import('../routes/Article.svelte'), obj))
-		.listen();
+	);
 
-	onDestroy(router.unlisten);
+	let isAdmin = false;
+	function onAdmin(thunk, obj) {
+		if (isAdmin) return run(thunk, obj);
+		router.route('/login', true);
+	}
+
+	onMount(() => {
+		return router.listen();
+	});
 </script>
 
 <style>
