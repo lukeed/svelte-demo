@@ -5,52 +5,14 @@
 </main>
 
 <script>
-	import Navaid from 'navaid';
-	import { onDestroy } from 'svelte';
 	import Nav from './Nav.svelte';
 
-	let Route, params={}, active;
-	let uri = location.pathname;
-	$: active = uri.split('/')[1] || 'home';
+	export let Route;
+	export let params = {};
+	export let pathname = '';
 
-	function run(thunk, obj) {
-		const target = uri;
-
-		thunk.then(m => {
-			if (target !== uri) return;
-
-			params = obj || {};
-
-			if (m.preload) {
-				m.preload({ params }).then(() => {
-					if (target !== uri) return;
-					Route = m.default;
-					window.scrollTo(0, 0);
-				});
-			} else {
-				Route = m.default;
-				window.scrollTo(0, 0);
-			}
-		});
-	}
-
-	function track(obj) {
-		uri = obj.state || obj.uri || location.pathname;
-		if (window.ga) ga.send('pageview', { dp:uri });
-	}
-
-	addEventListener('replacestate', track);
-	addEventListener('pushstate', track);
-	addEventListener('popstate', track);
-
-	const router = Navaid('/')
-		.on('/', () => run(import('../routes/Home.svelte')))
-		.on('/about', () => run(import('../routes/About.svelte')))
-		.on('/blog', () => run(import('../routes/Blog.svelte')))
-		.on('/blog/:postid', obj => run(import('../routes/Article.svelte'), obj))
-		.listen();
-
-	onDestroy(router.unlisten);
+	$: if (Route) window.scrollTo(0, 0);
+	$: active = pathname.split('/')[1] || 'home';
 </script>
 
 <style>
