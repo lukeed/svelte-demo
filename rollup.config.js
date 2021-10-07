@@ -5,7 +5,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
 
-const production = !process.env.ROLLUP_WATCH;
+const isProd = !process.env.ROLLUP_WATCH;
 
 export default {
 	input: 'src/index.js',
@@ -19,37 +19,30 @@ export default {
 	plugins: [
 		svelte({
 			compilerOptions: {
-				// enable run-time checks when not in production
-				dev: !production,
+				dev: !isProd,
 			}
 		}),
 
 		css({
 			output: 'bundle.css',
 		}),
-		// 	// we'll extract any component CSS out into
-		// 	// a separate file — better for performance
-		// 	css: css => {
-		// 		css.write('bundle.css');
-		// 	}
-		// }),
 
-		// If you have external dependencies installed from
-		// npm, you'll most likely need these plugins. In
-		// some cases you'll need additional configuration —
-		// consult the documentation for details:
-		// https://github.com/rollup/rollup-plugin-commonjs
-		resolve(),
+		resolve({
+			browser: true,
+			dedupe: ['svelte']
+		}),
+
 		commonjs(),
 
 		replace({
 			preventAssignment: true,
-			'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development')
+			'process.env.NODE_ENV': JSON.stringify(
+				isProd ? 'production' : 'development'
+			)
 		}),
 
-		// If we're building for production (npm run build
-		// instead of npm run dev), minify
-		production && terser()
+		// minify if `npm run build`
+		isProd && terser()
 	],
 
 	watch: {
