@@ -1,70 +1,54 @@
-*Psst — looking for a shareable component template? Go here --> [sveltejs/component-template](https://github.com/sveltejs/component-template)*
+# Svelte Demo
 
----
+> Multi-page Svelte 3.x application, built with Rollup and code-splitting enabled.
 
-# svelte app
+***Includes:***
 
-This is a project template for [Svelte](https://svelte.technology) apps. It lives at https://github.com/sveltejs/template.
+* Rollup
+* Svelte 3.x
+* Live-reload dev server
+* [Navaid](https://github.com/lukeed/navaid) for client-side routing
+* Familiar module-context `preload()` helper
 
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
+> **Note:** You may also be interested in the official [sveltejs/template](https://github.com/sveltejs/template)~!
 
-```bash
-npm install -g degit # you only need to do this once
 
-degit sveltejs/template svelte-app
-cd svelte-app
+## Setup
+
+```sh
+$ npm install
+# or
+$ pnpm install
+# or
+$ yarn install
 ```
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
 
+## Development
 
-## Get started
+Spawns a `localhost` devserver, which automatically reloads whenever contents within the `public` directory change.
 
-Install the dependencies...
+> **Note:** Listens on `localhost:8080` by default; use `PORT` to modify the port.
 
-```bash
-cd svelte-app
-npm install
+```sh
+$ npm run dev
+# or
+$ pnpm dev
+# or
+$ yarn dev
+
+# Modify the port
+$ PORT=5000 yarn dev
 ```
 
-...then start [Rollup](https://rollupjs.org):
 
-```bash
-npm run dev
-```
+## Build
 
-Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
+Builds the project for production.
+
+All output assets are available in the `public` directory.
 
 
-## Deploying to the web
+## License
 
-### With [now](https://zeit.co/now)
-
-Install `now` if you haven't already:
-
-```bash
-npm install -g now
-```
-
-Then, from within your project folder:
-
-```bash
-now
-```
-
-As an alternative, use the [Now desktop client](https://zeit.co/download) and simply drag the unzipped project folder to the taskbar icon.
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public
-```
+MIT &copy; [Luke Edwards](https://lukeed.com)
