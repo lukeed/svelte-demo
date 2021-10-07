@@ -1,13 +1,3 @@
-<svelte:head>
-	<title>{post.title}</title>
-</svelte:head>
-
-<h1>{post.title}</h1>
-
-<div class="content">
-	{@html post.body}
-</div>
-
 <script context="module">
 	let item = {};
 
@@ -33,6 +23,16 @@
 	// Reactively update `post` value
 	$: load(params.postid).then(obj => post = obj);
 </script>
+
+<svelte:head>
+	<title>{post.title}</title>
+</svelte:head>
+
+<h1>{post.title}</h1>
+
+<div class="content">
+	{@html post.body}
+</div>
 
 <style>
 	/*

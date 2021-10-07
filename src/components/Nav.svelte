@@ -1,3 +1,8 @@
+<script>
+	export let active;
+	$: isActive = str => active === str ? 'selected' : '';
+</script>
+
 <nav>
 	<ul>
 		<li><a class="{ isActive('home') }" href="/">home</a></li>
@@ -5,11 +10,6 @@
 		<li><a class="{ isActive('blog') }" href="/blog">blog</a></li>
 	</ul>
 </nav>
-
-<script>
-	export let active;
-	$: isActive = str => active === str ? 'selected' : '';
-</script>
 
 <style>
 	nav {

@@ -1,9 +1,3 @@
-<Nav {active} />
-
-<main>
-	<svelte:component this={Route} {params} />
-</main>
-
 <script>
 	import Navaid from 'navaid';
 	import { onDestroy } from 'svelte';
@@ -52,6 +46,12 @@
 
 	onDestroy(router.unlisten);
 </script>
+
+<Nav {active} />
+
+<main>
+	<svelte:component this={Route} {params} />
+</main>
 
 <style>
 	main {

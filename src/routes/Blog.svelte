@@ -1,3 +1,14 @@
+<script context="module">
+	let posts = [];
+	export function preload() {
+		return fetch('https://jsonplaceholder.typicode.com/posts')
+			.then(r => r.json())
+			.then(arr => {
+				posts = arr;
+			});
+	}
+</script>
+
 <svelte:head>
 	<title>Blog</title>
 </svelte:head>
@@ -9,17 +20,6 @@
 		<li><a href="/blog/{post.id}">{post.title}</a></li>
 	{/each}
 </ul>
-
-<script context="module">
-	let posts = [];
-	export function preload() {
-		return fetch('https://jsonplaceholder.typicode.com/posts')
-			.then(r => r.json())
-			.then(arr => {
-				posts = arr;
-			});
-	}
-</script>
 
 <style>
 	ul {
