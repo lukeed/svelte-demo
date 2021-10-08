@@ -28,7 +28,7 @@ $ yarn install
 
 Spawns a `localhost` devserver, which automatically reloads whenever contents within the `public` directory change.
 
-> **Note:** Listens on `localhost:8080` by default; use `PORT` to modify the port.
+> **Note:** Listens on `localhost:5000` by default; use `PORT` to modify the port.
 
 ```sh
 $ npm run dev
@@ -38,7 +38,7 @@ $ pnpm dev
 $ yarn dev
 
 # Modify the port
-$ PORT=5000 yarn dev
+$ PORT=8080 yarn dev
 ```
 
 
