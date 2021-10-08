@@ -9,8 +9,10 @@
 * Live-reload dev server
 * [Navaid](https://github.com/lukeed/navaid) for client-side routing
 * Familiar module-context `preload()` helper
+* Svelte with TypeScript; via `<script lang="ts">` tags
+* TypeScript transpilation (via esbuild)
 
-> **TypeScript?:** Check out the [`typescript` branch](https://github.com/lukeed/svelte-demo/tree/typescript)~!
+> **JavaScript?:** Check out the [`master` branch](https://github.com/lukeed/svelte-demo/tree/master)~!
 
 
 ## Setup
