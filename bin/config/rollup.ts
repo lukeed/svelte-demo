@@ -4,13 +4,15 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
-import { copy } from './copy.js';
+import { copy } from './copy';
 
-/**
- * @param {boolean} isProd
- * @returns {import('rollup').RollupOptions}
- */
-export default function (isProd) {
+import type { RollupOptions, OutputOptions } from 'rollup';
+
+export type Options = RollupOptions & {
+	output: OutputOptions;
+}
+
+export default function (isProd: boolean): Options {
 	let plugins = [
 		svelte({
 			compilerOptions: {

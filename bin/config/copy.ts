@@ -1,16 +1,13 @@
-// @ts-check
 import * as path from 'path';
 import { promises as fs } from 'fs';
 import { existsSync, statSync } from 'fs';
 import { totalist } from 'totalist';
 
-/**
- * @param {string[]} inputs
- * @returns {import('rollup').Plugin}
- */
-export function copy(inputs) {
+import type { Plugin } from 'rollup';
+
+export function copy(inputs: string[]): Plugin {
 	let root = path.resolve('.');
-	let srcdir, files=[];
+	let srcdir: string, files: string[] = [];
 
 	inputs = inputs.map(str => {
 		return path.join(root, str);
@@ -19,7 +16,8 @@ export function copy(inputs) {
 	return {
 		name: 'copy',
 		async buildStart(options) {
-			srcdir = srcdir || path.dirname(options.input[0]);
+			let entry = (options.input as string[])[0];
+			srcdir = srcdir || path.dirname(entry);
 
 			files = [];
 

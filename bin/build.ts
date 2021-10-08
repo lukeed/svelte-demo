@@ -1,10 +1,12 @@
-// @ts-check
 import { existsSync } from 'fs';
 import { promises as fs } from 'fs';
 import { relative, resolve } from 'path';
 
 import * as rollup from 'rollup';
-import Config from './config/rollup.js';
+import Config from './config/rollup';
+
+import type { OutputOptions } from 'rollup';
+import type { Output } from 'servor';
 
 const rm = fs.rm || fs.rmdir;
 const { PORT=5000 } = process.env;
@@ -12,8 +14,7 @@ const isProd = !process.argv.includes('--dev');
 
 (async function () {
 	let config = Config(isProd);
-	// @ts-ignore – config|config[]
-	let outdir = config.output.dir;
+	let outdir = config.output.dir!;
 
 	let root = resolve('.');
 	let dest = resolve(root, outdir);
@@ -25,7 +26,7 @@ const isProd = !process.argv.includes('--dev');
 
 	if (isProd) {
 		let { output, ...rest } = config;
-		let outputs = [].concat(output);
+		let outputs = ([] as OutputOptions[]).concat(output);
 
 		let start = Date.now();
 		let bun = await rollup.rollup(rest);
@@ -34,7 +35,7 @@ const isProd = !process.argv.includes('--dev');
 		return console.log('~> done in %ds', +delta/1e3);
 	}
 
-	let server, srv = await import('servor');
+	let server: Output, srv = await import('servor');
 	let watcher = rollup.watch(config);
 
 	watcher.on('change', file => {
@@ -42,21 +43,20 @@ const isProd = !process.argv.includes('--dev');
 		console.log('~> touch ::', file);
 	});
 
-	watcher.on('event', evt => {
+	watcher.on('event', async evt => {
 		if (evt.code === 'BUNDLE_END') {
 			let ms = (evt.duration).toLocaleString();
 			if (server) return console.log('~> built in %dms', ms);
 
 			console.log('~> ready in %dms', ms);
 
-			// @ts-ignore - wrong types
-			server = srv.default({
+			server = await srv.default({
 				reload: true,
 				root: outdir,
 				port: PORT,
 			});
 
-			return console.log('~> visit http://localhost:%d', PORT);
+			return console.log('~> visit http://localhost:%d', server.port);
 		}
 
 		if (evt.code === 'ERROR') {
