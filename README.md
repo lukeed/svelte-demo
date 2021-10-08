@@ -10,7 +10,7 @@
 * [Navaid](https://github.com/lukeed/navaid) for client-side routing
 * Familiar module-context `preload()` helper
 
-> **Note:** You may also be interested in the official [sveltejs/template](https://github.com/sveltejs/template)~!
+> **TypeScript?:** Check out the [`typescript` branch](https://github.com/lukeed/svelte-demo/tree/typescript)~!
 
 
 ## Setup
