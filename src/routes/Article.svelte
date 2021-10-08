@@ -1,24 +1,24 @@
-<script context="module">
-	let item = {};
+<script context="module" lang="ts">
+	let item: Partial<Post> = {};
 
-	function load(postid) {
-		const curr = item.id;
+	function load(postid?: string) {
+		const curr = item && item.id;
 		const isCurrent = curr && curr == postid;
 		if (!postid || isCurrent) return Promise.resolve(item);
 		return fetch(`https://jsonplaceholder.typicode.com/posts/${postid}`).then(r => r.json());
 	}
 
-	export function preload(req) {
+	export function preload(req: { params: Required<Params> }) {
 		return load(req.params.postid).then(obj => item = obj);
 	}
 </script>
 
-<script>
+<script lang="ts">
 	// Comes from App (router)
-	export let params = {};
+	export let params: Params = {};
 
 	// Initial value (preload)
-	let post = item;
+	let post: Partial<Post> = item || {};
 
 	// Reactively update `post` value
 	$: load(params.postid).then(obj => post = obj);

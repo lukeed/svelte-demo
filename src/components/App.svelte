@@ -1,16 +1,16 @@
-<script>
+<script lang="ts">
 	import Navaid from 'navaid';
 	import { onDestroy } from 'svelte';
 	import Nav from './Nav.svelte';
 
-	let Route, params={}, active;
 	let uri = location.pathname;
+	let Route: Component, params: Params = {};
 	$: active = uri.split('/')[1] || 'home';
 
-	function run(thunk, obj) {
+	function run(thunk: Promise<any>, obj?: Params) {
 		const target = uri;
 
-		thunk.then(m => {
+		(thunk as RouteLoader).then(m => {
 			if (target !== uri) return;
 
 			params = obj || {};
@@ -28,9 +28,9 @@
 		});
 	}
 
-	function track(obj) {
+	function track(obj: Event & { state?: string, uri?: string }) {
 		uri = obj.state || obj.uri || location.pathname;
-		if (window.ga) ga.send('pageview', { dp:uri });
+		if (window.ga) window.ga.send('pageview', { dp: uri });
 	}
 
 	addEventListener('replacestate', track);
@@ -40,11 +40,11 @@
 	const router = Navaid('/')
 		.on('/', () => run(import('../routes/Home.svelte')))
 		.on('/about', () => run(import('../routes/About.svelte')))
+		.on('/blog/:postid', p => run(import('../routes/Article.svelte'), p))
 		.on('/blog', () => run(import('../routes/Blog.svelte')))
-		.on('/blog/:postid', obj => run(import('../routes/Article.svelte'), obj))
 		.listen();
 
-	onDestroy(router.unlisten);
+	onDestroy(router.unlisten!);
 </script>
 
 <Nav {active} />

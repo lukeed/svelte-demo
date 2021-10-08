@@ -8,12 +8,14 @@
     "forceConsistentCasingInFileNames": true,
     "strictFunctionTypes": true,
     "moduleResolution": "node",
+    "lib": ["dom", "es2018"],
     "alwaysStrict": true,
     "module": "esnext",
-    "noEmit": true,
+    "noEmit": true
   },
   "include": [
-    "bin", "src"
+    "bin",
+    "src"
   ],
   "exclude": [
     "**/node_modules/**"

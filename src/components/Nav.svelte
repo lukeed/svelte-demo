@@ -1,6 +1,6 @@
-<script>
-	export let active;
-	$: isActive = str => active === str ? 'selected' : '';
+<script lang="ts">
+	export let active: string;
+	$: isActive = (x: string) => active === x ? 'selected' : '';
 </script>
 
 <nav>

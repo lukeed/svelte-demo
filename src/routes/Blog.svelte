@@ -1,5 +1,6 @@
-<script context="module">
-	let posts = [];
+<script context="module" lang="ts">
+	let posts: Post[] = [];
+
 	export function preload() {
 		return fetch('https://jsonplaceholder.typicode.com/posts')
 			.then(r => r.json())
